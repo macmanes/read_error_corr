@@ -99,11 +99,11 @@ seecer:
 stats:
 	mkdir -p ${DIR}/stats${SAMP}M
 	cd ${DIR}/stats${SAMP}M && \
-	k8 ~/bfc/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.bfc55.out && \
-	k8 ~/bfc/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.bfc33.out && \
-	k8 ~/bfc/errstat.js ${DIR}/sga${SAMP}M/${SAMP}M.sga55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.sga33.out && \
-	k8 ~/bfc/errstat.js ${DIR}/sga${SAMP}M/${SAMP}M.sga33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.sga33.out && \
-	k8 ~/bfc/errstat.js ${DIR}/bless${SAMP}M/${SAMP}M.bless33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.bless33.out && \
-	k8 ~/bfc/errstat.js ${DIR}/bless${SAMP}M/${SAMP}M.bless33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.bless33.out && \
-	k8 ~/bfc/errstat.js ${DIR}/lighter${SAMP}M/${SAMP}M.lighter.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.lighter.out && \
-	k8 ~/bfc/errstat.js ${DIR}/seecer${SAMP}M/${SAMP}M.seecer.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -17 > ${SAMP}M.seecer.out
+	k8 ~/bfc/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bfc55.out && \
+	k8 ~/bfc/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bfc33.out && \
+	k8 ~/bfc/errstat.js ${DIR}/sga${SAMP}M/${SAMP}M.sga55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.sga33.out && \
+	k8 ~/bfc/errstat.js ${DIR}/sga${SAMP}M/${SAMP}M.sga33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.sga33.out && \
+	k8 ~/bfc/errstat.js ${DIR}/bless${SAMP}M/${SAMP}M.bless33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bless33.out && \
+	k8 ~/bfc/errstat.js ${DIR}/bless${SAMP}M/${SAMP}M.bless33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bless33.out && \
+	k8 ~/bfc/errstat.js ${DIR}/lighter${SAMP}M/${SAMP}M.lighter.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.lighter.out && \
+	k8 ~/bfc/errstat.js ${DIR}/seecer${SAMP}M/${SAMP}M.seecer.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.seecer.out
