@@ -8,7 +8,8 @@ SHELL=/bin/bash -o pipefail
 MAKEDIR := $(dir $(firstword $(MAKEFILE_LIST)))
 DIR := ${CURDIR}
 CPU=16
-SAMP=10    #the number of reads in millions to subsample.  
+SAMP=10
+#the number of reads in millions to subsample.  
 
 
 all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer
