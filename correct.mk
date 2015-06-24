@@ -12,22 +12,21 @@ MAKEDIR := $(dir $(firstword $(MAKEFILE_LIST)))
 DIR := ${CURDIR}
 CPU=16
 SAMP=10
-#the number of reads in millions to subsample.  
+#the number of reads in millions to subsample.
 
 
-all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer stats
+all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer stats trinity_bfc trinity_raw
 
 
 scripts:
 	@echo Downloading Scripts
 	mkdir -p ${DIR}/scripts
 	cd ${DIR}/scripts && \
-	wget https://raw.githubusercontent.com/macmanes/trimming_paper/master/scripts/subsampler.py
-
+	wget https://raw.githubusercontent.com/macmanes/trimming_paper/master/scripts/subsampler.py && \
+	wget https://raw.githubusercontent.com/macmanes/read_error_corr/master/barcodes.fa
 
 download_reads:
-	mkdir -p ${DIR}/reads
-	cd ${DIR}/reads && \
+	mkdir -p ${DIR}/reads	cd ${DIR}/reads && \
 	gzip -cd <(wget -qO- ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_1.fastq.gz) > SRR797058_1.fastq && \
 	gzip -cd <(wget -qO- ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_2.fastq.gz) > SRR797058_2.fastq
 subsamp_reads:
@@ -52,8 +51,6 @@ lighter:
 	cd ${DIR}/lighter${SAMP}M && \
 	lighter -K 31 60000000 -r ${DIR}/reads/subsamp_1.fastq -r ${DIR}/reads/subsamp_2.fastq -t $(CPU) && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus subsamp_1.cor.fq subsamp_2.cor.fq > ${SAMP}M.lighter.sam
-
-
 
 bless:
 	mkdir -p ${DIR}/bless${SAMP}M
@@ -107,3 +104,21 @@ stats:
 	k8 ~/bfc/errstat.js ${DIR}/bless${SAMP}M/${SAMP}M.bless33.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bless33.out && \
 	k8 ~/bfc/errstat.js ${DIR}/lighter${SAMP}M/${SAMP}M.lighter.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.lighter.out && \
 	k8 ~/bfc/errstat.js ${DIR}/seecer${SAMP}M/${SAMP}M.seecer.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.seecer.out
+
+trinity_bfc:
+	mkdir -p ${DIR}/trinity_${SAMP}M
+	cd ${DIR}/trinity_${SAMP}M && \
+	Trinity --seqType fq --max_memory 10G --trimmomatic \
+	--left ${DIR}/bfc${SAMP}M/bfc33.corr.fq.1 \
+	--right ${DIR}/bfc${SAMP}M/bfc33.corr.fq.2 \
+	--CPU $(CPU) --output trinity_$(samp10)M.P2.bfc33 --inchworm_cpu 10 --full_cleanup \
+	--quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+
+trinity_raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
+	mkdir -p ${DIR}/trinity_${SAMP}M
+	cd ${DIR}/trinity_${SAMP}M && \
+	Trinity --seqType fq --max_memory 10G --trimmomatic \
+	--left $< \
+	--right $(word 2,$^) \
+	--CPU $(CPU) --output trinity_$(samp10)M.P2.raw --inchworm_cpu 10 --full_cleanup \
+	--quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
