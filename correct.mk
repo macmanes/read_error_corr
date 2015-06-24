@@ -26,7 +26,8 @@ scripts:
 	wget https://raw.githubusercontent.com/macmanes/read_error_corr/master/barcodes.fa
 
 download_reads:
-	mkdir -p ${DIR}/reads	cd ${DIR}/reads && \
+	mkdir -p ${DIR}/reads
+	cd ${DIR}/reads && \
 	gzip -cd <(wget -qO- ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_1.fastq.gz) > SRR797058_1.fastq && \
 	gzip -cd <(wget -qO- ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_2.fastq.gz) > SRR797058_2.fastq
 subsamp_reads:
