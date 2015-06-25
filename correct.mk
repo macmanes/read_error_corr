@@ -112,7 +112,7 @@ trinity_bfc:
 	Trinity --seqType fq --max_memory 10G --trimmomatic \
 	--left ${DIR}/bfc${SAMP}M/bfc33.corr.fq.1 \
 	--right ${DIR}/bfc${SAMP}M/bfc33.corr.fq.2 \
-	--CPU $(CPU) --output trinity_$(samp10)M.P2.bfc33 --inchworm_cpu 10 --full_cleanup \
+	--CPU $(CPU) --output trinity_${SAMP}M.P2.bfc33 --inchworm_cpu 10 --full_cleanup \
 	--quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 trinity_raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
@@ -121,5 +121,5 @@ trinity_raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
 	Trinity --seqType fq --max_memory 10G --trimmomatic \
 	--left $< \
 	--right $(word 2,$^) \
-	--CPU $(CPU) --output trinity_$(samp10)M.P2.raw --inchworm_cpu 10 --full_cleanup \
+	--CPU $(CPU) --output trinity_${SAMP}M.P2.raw --inchworm_cpu 10 --full_cleanup \
 	--quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
