@@ -81,8 +81,8 @@ bfc:
 	mkdir -p ${DIR}/bfc${SAMP}M
 	cd ${DIR}/bfc${SAMP}M && \
 	interleave-reads.py ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq -o inter.fq && \
-	bfc -s 50m -k55 -t 16 inter.fq > bfc55.corr.fq && \
-	bfc -s 50m -k33 -t 16 inter.fq > bfc33.corr.fq && \
+	bfc -s 50m -k55 -t $(CPU) inter.fq > bfc55.corr.fq && \
+	bfc -s 50m -k33 -t $(CPU) inter.fq > bfc33.corr.fq && \
 	split-paired-reads.py bfc55.corr.fq && \
 	split-paired-reads.py bfc33.corr.fq && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus bfc55.corr.fq.1 bfc55.corr.fq.2 > ${SAMP}M.bfc55.sam && \
