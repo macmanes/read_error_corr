@@ -15,7 +15,7 @@ SAMP=10
 #the number of reads in millions to subsample.
 
 
-all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer stats trinity_bfc trinity_raw
+all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer rcorrector stats trinity_bfc trinity_raw
 
 
 scripts:
@@ -90,6 +90,10 @@ seecer:
 	run_seecer.sh -t . -k 31 ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/reads/subsamp_1.fastq_corrected.fa ${DIR}/reads/subsamp_2.fastq_corrected.fa > ${SAMP}M.seecer.sam
 
+rcorrector:
+	mkdir -p ${DIR}/rcorr${SAMP}M
+	cd ${DIR}/rcorr${SAMP}M && \
+	perl run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/subsamp_1.fastq -2 ${DIR}/reads/subsamp_2.fastq
 stats:
 	mkdir -p ${DIR}/stats${SAMP}M
 	cd ${DIR}/stats${SAMP}M && \
