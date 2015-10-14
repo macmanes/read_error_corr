@@ -15,8 +15,8 @@ SAMP=10
 #the number of reads in millions to subsample.
 
 
-all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer rcorrector stats trinity_bfc trinity_raw
-
+all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer rcorrector stats trinity_bfc trinity_raw lighter_trinity
+lighter:${DIR}/lighter${SAMP}M/subsamp_1.cor.fq ${DIR}/lighter${SAMP}M/subsamp_2.cor.fq
 
 scripts:
 	@echo Downloading Scripts
@@ -48,13 +48,14 @@ raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
 	Trinity --seqType fq --max_memory 10G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
-lighter:${DIR}/lighter${SAMP}M/subsamp_1.cor.fq ${DIR}/lighter${SAMP}M/subsamp_2.cor.fq
+${DIR}/lighter${SAMP}M/subsamp_1.cor.fq ${DIR}/lighter${SAMP}M/subsamp_2.cor.fq:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
 	mkdir -p ${DIR}/lighter${SAMP}M
 	cd ${DIR}/lighter${SAMP}M && \
 	lighter -K 31 60000000 -r ${DIR}/reads/subsamp_1.fastq -r ${DIR}/reads/subsamp_2.fastq -t $(CPU) && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus subsamp_1.cor.fq subsamp_2.cor.fq > ${SAMP}M.lighter.sam && \
+	bwa mem -t $(CPU) ${DIR}/genome/mus subsamp_1.cor.fq subsamp_2.cor.fq > ${SAMP}M.lighter.sam
+lighter_trinity:${DIR}/lighter${SAMP}M/subsamp_1.cor.fq ${DIR}/lighter${SAMP}M/subsamp_2.cor.fq
+	cd ${DIR}/lighter${SAMP}M && \
 	Trinity --seqType fq --max_memory 10G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
-
 
 bless:
 	mkdir -p ${DIR}/bless${SAMP}M
