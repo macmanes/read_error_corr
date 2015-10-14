@@ -41,16 +41,20 @@ reference:
 	wget ftp://ftp.ensembl.org/pub/release-79/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.chromosome.1.fa.gz && \
 	bwa index -p mus Mus_musculus.GRCm38.dna.chromosome.1.fa.gz
 
-raw:
+raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
 	mkdir -p ${DIR}/raw
 	cd ${DIR}/raw && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq > ${SAMP}M.raw.sam
+	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq > ${SAMP}M.raw.sam && \
+	Trinity --seqType fq --max_memory 10G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
-lighter:
+
+lighter:${DIR}/lighter${SAMP}M/subsamp_1.cor.fq ${DIR}/lighter${SAMP}M/subsamp_2.cor.fq
 	mkdir -p ${DIR}/lighter${SAMP}M
 	cd ${DIR}/lighter${SAMP}M && \
 	lighter -K 31 60000000 -r ${DIR}/reads/subsamp_1.fastq -r ${DIR}/reads/subsamp_2.fastq -t $(CPU) && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus subsamp_1.cor.fq subsamp_2.cor.fq > ${SAMP}M.lighter.sam
+	bwa mem -t $(CPU) ${DIR}/genome/mus subsamp_1.cor.fq subsamp_2.cor.fq > ${SAMP}M.lighter.sam && \
+	Trinity --seqType fq --max_memory 10G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+
 
 bless:
 	mkdir -p ${DIR}/bless${SAMP}M
@@ -73,7 +77,6 @@ sga:
 	bwa mem -p -t $(CPU) ${DIR}/genome/mus sga.55.fq > ${SAMP}M.sga55.sam && \
 	bwa mem -p -t $(CPU) ${DIR}/genome/mus sga.33.fq > ${SAMP}M.sga33.sam
 
-
 bfc:
 	mkdir -p ${DIR}/bfc${SAMP}M
 	cd ${DIR}/bfc${SAMP}M && \
@@ -83,16 +86,18 @@ bfc:
 	bwa mem -p -t $(CPU) ${DIR}/genome/mus bfc55.corr.fq > ${SAMP}M.bfc55.sam && \
 	bwa mem -p -t $(CPU) ${DIR}/genome/mus bfc33.corr.fq > ${SAMP}M.bfc33.sam
 
-seecer:
+seecer:${DIR}/reads/subsamp_1.fastq_corrected.fa ${DIR}/reads/subsamp_2.fastq_corrected.fa
 	mkdir -p ${DIR}/seecer${SAMP}M
 	cd ${DIR}/seecer${SAMP}M && \
 	run_seecer.sh -t . -k 31 ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/reads/subsamp_1.fastq_corrected.fa ${DIR}/reads/subsamp_2.fastq_corrected.fa > ${SAMP}M.seecer.sam
+	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/reads/subsamp_1.fastq_corrected.fa ${DIR}/reads/subsamp_2.fastq_corrected.fa > ${SAMP}M.seecer.sam && \
+	Trinity --seqType fa --max_memory 10G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+
 
 rcorrector:
 	mkdir -p ${DIR}/rcorr${SAMP}M
 	cd ${DIR}/rcorr${SAMP}M && \
-	perl run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/subsamp_1.fastq -2 ${DIR}/reads/subsamp_2.fastq
+	perl /share/Rcorrector/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/subsamp_1.fastq -2 ${DIR}/reads/subsamp_2.fastq
 stats:
 	mkdir -p ${DIR}/stats${SAMP}M
 	cd ${DIR}/stats${SAMP}M && \
@@ -105,14 +110,6 @@ stats:
 	k8 ~/bfc/errstat.js ${DIR}/lighter${SAMP}M/${SAMP}M.lighter.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.lighter.out && \
 	k8 ~/bfc/errstat.js ${DIR}/seecer${SAMP}M/${SAMP}M.seecer.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.seecer.out
 
-trinity_bfc:
-	mkdir -p ${DIR}/trinity_${SAMP}M
-	cd ${DIR}/trinity_${SAMP}M && \
-	Trinity --seqType fq --max_memory 10G --trimmomatic \
-	--left ${DIR}/bfc${SAMP}M/bfc33.corr.fq.1 \
-	--right ${DIR}/bfc${SAMP}M/bfc33.corr.fq.2 \
-	--CPU $(CPU) --output trinity_${SAMP}M.P2.bfc33 --inchworm_cpu 10 --full_cleanup \
-	--quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 trinity_raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
 	mkdir -p ${DIR}/trinity_${SAMP}M
