@@ -22,25 +22,24 @@ scripts:
 	@echo Downloading Scripts
 	mkdir -p ${DIR}/scripts
 	cd ${DIR}/scripts && \
-	wget https://raw.githubusercontent.com/macmanes/trimming_paper/master/scripts/subsampler.py && \
 	wget https://raw.githubusercontent.com/macmanes/read_error_corr/master/barcodes.fa
 
 download_reads:
 	mkdir -p ${DIR}/reads
 	cd ${DIR}/reads && \
-	gzip -cd <(wget -qO- ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_1.fastq.gz) > SRR797058_1.fastq && \
-	gzip -cd <(wget -qO- ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_2.fastq.gz) > SRR797058_2.fastq
+	curl -LO ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_1.fastq.gz && \
+	curl -LO ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_2.fastq.gz
 subsamp_reads:
 	cd ${DIR}/reads && \
-	python ${DIR}/scripts/subsampler.py ${SAMP}000000 SRR797058_1.fastq SRR797058_2.fastq && \
+	seqtk sample -s102340 SRR797058_1.fastq.gz ${SAMP}000000 > subsamp_1.fastq && \
+	seqtk sample -s102340 SRR797058_2.fastq.gz ${SAMP}000000 > subsamp_2.fastq && \
 	sed -i 's_ H_-H_g' subsamp_{1,2}.fastq
 
 reference:
 	mkdir -p ${DIR}/genome
 	cd ${DIR}/genome && \
 	wget ftp://ftp.ensembl.org/pub/release-79/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.chromosome.1.fa.gz && \
-	gzip -d Mus_musculus.GRCm38.dna.chromosome.1.fa.gz && \
-	bwa index -p mus Mus_musculus.GRCm38.dna.chromosome.1.fa
+	bwa index -p mus Mus_musculus.GRCm38.dna.chromosome.1.fa.gz
 
 raw:
 	mkdir -p ${DIR}/raw
