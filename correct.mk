@@ -71,22 +71,18 @@ sga:
 	sga index -a ropebwt -t 8 --no-reverse out.pe.fq.gz && \
 	sga correct -t $(CPU) -k 55 --learn out.pe.fq.gz -o sga.55.fq && \
 	sga correct -t $(CPU) -k 33 --learn out.pe.fq.gz -o sga.33.fq && \
-	split-paired-reads.py sga.55.fq && \
-	split-paired-reads.py sga.33.fq && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus sga.55.fq.1 sga.55.fq.2 > ${SAMP}M.sga55.sam && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus sga.33.fq.1 sga.33.fq.2 > ${SAMP}M.sga33.sam
+	bwa mem -p -t $(CPU) ${DIR}/genome/mus sga.55.fq > ${SAMP}M.sga55.sam && \
+	bwa mem -p -t $(CPU) ${DIR}/genome/mus sga.33.fq > ${SAMP}M.sga33.sam
 
 
 bfc:
 	mkdir -p ${DIR}/bfc${SAMP}M
 	cd ${DIR}/bfc${SAMP}M && \
-	interleave-reads.py ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq -o inter.fq && \
+	seqtk mergepe ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq > inter.fq && \
 	bfc -s 50m -k55 -t $(CPU) inter.fq > bfc55.corr.fq && \
 	bfc -s 50m -k33 -t $(CPU) inter.fq > bfc33.corr.fq && \
-	split-paired-reads.py bfc55.corr.fq && \
-	split-paired-reads.py bfc33.corr.fq && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus bfc55.corr.fq.1 bfc55.corr.fq.2 > ${SAMP}M.bfc55.sam && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus bfc33.corr.fq.1 bfc33.corr.fq.2 > ${SAMP}M.bfc33.sam
+	bwa mem -p -t $(CPU) ${DIR}/genome/mus bfc55.corr.fq > ${SAMP}M.bfc55.sam && \
+	bwa mem -p -t $(CPU) ${DIR}/genome/mus bfc33.corr.fq > ${SAMP}M.bfc33.sam
 
 seecer:
 	mkdir -p ${DIR}/seecer${SAMP}M
