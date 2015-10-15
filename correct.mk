@@ -113,7 +113,7 @@ bfc_trinity:
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc31.corr.fq.1 --right bfc31.corr.fq.2 --CPU $(CPU) --output trinity_bfc31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
-seecer:${DIR}/reads/subsamp_1.fastq_corrected.fa ${DIR}/reads/subsamp_2.fastq_corrected.fa
+seecer:
 	mkdir -p ${DIR}/seecer${SAMP}M
 	cd ${DIR}/seecer${SAMP}M && \
 	run_seecer.sh -t . -k 31 ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq && \
