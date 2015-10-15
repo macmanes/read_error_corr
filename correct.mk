@@ -3,9 +3,8 @@
 SHELL=/bin/bash -o pipefail
 
 #USAGE:
-#	./correct.mk all CPU=16 SAMP=10
 #
-#
+#	for i in 10 20 30 40 50 60 70 80 90 100; do ./correct.mk main SAMP=$i CPU=36; done
 #
 
 MAKEDIR := $(dir $(firstword $(MAKEFILE_LIST)))
@@ -14,7 +13,6 @@ CPU=16
 SAMP=10
 READ1=SRR797058_1.fastq.gz
 READ2=SRR797058_2.fastq.gz
-#the number of reads in millions to subsample.
 
 
 prep: download_reads scripts reference
