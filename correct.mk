@@ -64,8 +64,8 @@ lighter_trinity:
 bless:
 	mkdir -p ${DIR}/bless${SAMP}M
 	cd ${DIR}/bless${SAMP}M && \
-	mpirun -np $(CPU) bless -read1 ${DIR}/reads/subsamp_1.fastq -read2 ${DIR}/reads/subsamp_2.fastq -prefix ${SAMP}M_bless55 -kmerlength 55 && \
-	mpirun -np $(CPU) bless -read1 ${DIR}/reads/subsamp_1.fastq -read2 ${DIR}/reads/subsamp_2.fastq -prefix ${SAMP}M_bless31 -kmerlength 31 && \
+	mpirun -np $(CPU) bless -notrim -read1 ${DIR}/reads/subsamp_1.fastq -read2 ${DIR}/reads/subsamp_2.fastq -prefix ${SAMP}M_bless55 -kmerlength 55 && \
+	mpirun -np $(CPU) bless -notrim -read1 ${DIR}/reads/subsamp_1.fastq -read2 ${DIR}/reads/subsamp_2.fastq -prefix ${SAMP}M_bless31 -kmerlength 31 && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${SAMP}M_bless55.1.corrected.fastq ${SAMP}M_bless55.2.corrected.fastq > ${SAMP}M.bless55.sam && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${SAMP}M_bless31.1.corrected.fastq ${SAMP}M_bless31.2.corrected.fastq > ${SAMP}M.bless31.sam && \
 	k8 ~/bfc/errstat.js ${DIR}/bless${SAMP}M/${SAMP}M.bless55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bless55.out && \
