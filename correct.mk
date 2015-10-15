@@ -19,6 +19,8 @@ prep: download_reads scripts reference
 main: subsamp_reads raw trinity_raw lighter lighter_trinity bless bless_trinity sga sga_trinity bfc bfc_trinity seecer seecer_trinity \
 	rcorrector 
 
+.DELETE_ON_ERROR:
+
 scripts:
 	@echo Downloading Scripts
 	mkdir -p ${DIR}/scripts
