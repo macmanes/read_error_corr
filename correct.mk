@@ -12,6 +12,8 @@ MAKEDIR := $(dir $(firstword $(MAKEFILE_LIST)))
 DIR := ${CURDIR}
 CPU=16
 SAMP=10
+READ1=SRR797058_1.fastq.gz
+READ2=SRR797058_2.fastq.gz
 #the number of reads in millions to subsample.
 
 
@@ -39,8 +41,8 @@ reference:
 
 subsamp_reads:
 	cd ${DIR}/reads && \
-	seqtk sample -s102340 SRR797058_1.fastq.gz ${SAMP}000000 > subsamp_1.fastq && \
-	seqtk sample -s102340 SRR797058_2.fastq.gz ${SAMP}000000 > subsamp_2.fastq && \
+	seqtk sample -s102340 ${READ1} ${SAMP}000000 > subsamp_1.fastq && \
+	seqtk sample -s102340 ${READ2} ${SAMP}000000 > subsamp_2.fastq && \
 	sed -i 's_ H_-H_g' subsamp_{1,2}.fastq
 
 raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
