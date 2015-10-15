@@ -15,8 +15,8 @@ SAMP=10
 #the number of reads in millions to subsample.
 
 
-all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer rcorrector stats trinity_bfc trinity_raw lighter_trinity
-lighter:${DIR}/lighter${SAMP}M/subsamp_1.cor.fq ${DIR}/lighter${SAMP}M/subsamp_2.cor.fq
+all: scripts download_reads subsamp_reads reference raw lighter bless sga bfc seecer \
+rcorrector stats trinity_bfc trinity_raw lighter_trinity
 
 scripts:
 	@echo Downloading Scripts
