@@ -120,7 +120,7 @@ seecer:${DIR}/reads/subsamp_1.fastq_corrected.fa ${DIR}/reads/subsamp_2.fastq_co
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/reads/subsamp_1.fastq_corrected.fa ${DIR}/reads/subsamp_2.fastq_corrected.fa > ${SAMP}M.seecer.sam && \
 	k8 ~/bfc/errstat.js ${DIR}/seecer${SAMP}M/${SAMP}M.seecer.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.seecer.out
 
-seecer_trinity
+seecer_trinity:
 	cd ${DIR}/seecer${SAMP}M && \
 	Trinity --seqType fa --max_memory 50G --trimmomatic --left ${DIR}/reads/subsamp_1.fastq_corrected.fa --right ${DIR}/reads/subsamp_2.fastq_corrected.fa --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
