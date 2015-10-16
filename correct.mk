@@ -17,7 +17,7 @@ READ2=SRR797058_2.fastq.gz
 
 prep: download_reads scripts reference
 main: subsamp_reads raw trinity_raw lighter lighter_trinity bless bless_trinity sga sga_trinity bfc bfc_trinity seecer seecer_trinity \
-	rcorrector 
+	rcorrector rcorr_trinity
 
 .DELETE_ON_ERROR:
 
@@ -125,7 +125,11 @@ seecer_trinity:
 rcorrector:
 	mkdir -p ${DIR}/rcorr${SAMP}M
 	cd ${DIR}/rcorr${SAMP}M && \
-	perl /share/Rcorrector/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/subsamp_1.fastq -2 ${DIR}/reads/subsamp_2.fastq
+	perl ~/Rcorrector/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/subsamp_1.fastq -2 ${DIR}/reads/subsamp_2.fastq
+
+rcorr_trinity:
+	cd ${DIR}/rcorr${SAMP}M && \
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/subsamp_2.cor.fq --right ${DIR}/rcorr${SAMP}M/subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
 trinity_raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
