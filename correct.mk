@@ -109,8 +109,8 @@ bfc:
 
 bfc_trinity:
 	cd ${DIR}/bfc${SAMP}M && \
-	split-paired-reads.py ${DIR}/genome/mus bfc55.corr.fq && \
-	split-paired-reads.py ${DIR}/genome/mus bfc31.corr.fq && \
+	split-paired-reads.py bfc55.corr.fq && \
+	split-paired-reads.py bfc31.corr.fq && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 --CPU $(CPU) --output trinity_bfc55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc31.corr.fq.1 --right bfc31.corr.fq.2 --CPU $(CPU) --output trinity_bfc31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
