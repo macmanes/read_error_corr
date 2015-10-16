@@ -31,8 +31,8 @@ scripts:
 download_reads:
 	mkdir -p ${DIR}/reads
 	cd ${DIR}/reads && \
-	curl -LO ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_1.fastq.gz && \
-	curl -LO ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR797/SRR797058/SRR797058_2.fastq.gz
+	curl -LO https://s3.amazonaws.com/macmanes_general/SRR797058_2.fastq.gz && \
+	curl -LO https://s3.amazonaws.com/macmanes_general/SRR797058_1.fastq.gz
 
 reference:
 	mkdir -p ${DIR}/genome
