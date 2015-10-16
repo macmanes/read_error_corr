@@ -129,7 +129,7 @@ rcorrector:
 
 rcorr_trinity:
 	cd ${DIR}/rcorr${SAMP}M && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/subsamp_2.cor.fq --right ${DIR}/rcorr${SAMP}M/subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/subsamp_1.cor.fq --right ${DIR}/rcorr${SAMP}M/subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
 trinity_raw:${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq
