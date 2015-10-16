@@ -81,10 +81,8 @@ sga:
 	cd ${DIR}/sga${SAMP}M && \
 	sga preprocess -p 1 ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq | gzip -1 > out.pe.fq.gz && \
 	sga index -a ropebwt -t 8 --no-reverse out.pe.fq.gz && \
-	sga correct -t $(CPU) -k 55 --learn out.pe.fq.gz -o sga.55.fq && \
-	sga correct -t $(CPU) -k 31 --learn out.pe.fq.gz -o sga.31.fq && \
-	bwa mem -p -t $(CPU) ${DIR}/genome/mus sga.55.fq > ${SAMP}M.sga55.sam && \
-	bwa mem -p -t $(CPU) ${DIR}/genome/mus sga.31.fq > ${SAMP}M.sga31.sam && \
+	sga correct -t $(CPU) -k 55 --learn out.pe.fq.gz -o /dev/stdout | tee sga.55.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.sga55.sam && \
+	sga correct -t $(CPU) -k 31 --learn out.pe.fq.gz -o /dev/stdout | tee sga.31.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.sga31.sam && \
 	k8 ~/bfc/errstat.js ${DIR}/sga${SAMP}M/${SAMP}M.sga55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.sga55.out && \
 	k8 ~/bfc/errstat.js ${DIR}/sga${SAMP}M/${SAMP}M.sga31.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.sga31.out
 
@@ -100,10 +98,8 @@ bfc:
 	mkdir -p ${DIR}/bfc${SAMP}M
 	cd ${DIR}/bfc${SAMP}M && \
 	seqtk mergepe ${DIR}/reads/subsamp_1.fastq ${DIR}/reads/subsamp_2.fastq > inter.fq && \
-	bfc -s 50m -k55 -t $(CPU) inter.fq > bfc55.corr.fq && \
-	bfc -s 50m -k31 -t $(CPU) inter.fq > bfc31.corr.fq && \
-	bwa mem -p -t $(CPU) ${DIR}/genome/mus bfc55.corr.fq > ${SAMP}M.bfc55.sam && \
-	bwa mem -p -t $(CPU) ${DIR}/genome/mus bfc31.corr.fq > ${SAMP}M.bfc31.sam && \
+	bfc -s 50m -k55 -t $(CPU) inter.fq | tee bfc55.corr.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.bfc55.sam && \
+	bfc -s 50m -k31 -t $(CPU) inter.fq | tee bfc31.corr.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.bfc31.sam && \
 	k8 ~/bfc/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bfc55.out && \
 	k8 ~/bfc/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc31.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bfc31.out
 
