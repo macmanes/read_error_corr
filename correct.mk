@@ -16,8 +16,9 @@ READ2=SRR797058_2.fastq.gz
 
 
 prep: download_reads scripts reference
-main: subsamp_reads raw trinity_raw lighter lighter_trinity bless bless_trinity sga sga_trinity bfc bfc_trinity seecer seecer_trinity \
+main: subsamp_reads raw trinity_raw lighter lighter_trinity bless bless_trinity sga sga_trinity bfc bfc_trinity \
 	rcorrector rcorr_trinity
+runseecer: seecer seecer_trinity
 
 .DELETE_ON_ERROR:
 
