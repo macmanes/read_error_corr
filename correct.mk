@@ -60,7 +60,7 @@ lighter:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fast
 
 lighter_trinity:
 	cd ${DIR}/lighter${SAMP}M && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left subsamp_1.cor.fq --right subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}.subsamp_1.cor.fq --right ${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 bless:
 	mkdir -p ${DIR}/bless${SAMP}M
