@@ -55,7 +55,7 @@ lighter:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fast
 	mkdir -p ${DIR}/lighter${SAMP}M
 	cd ${DIR}/lighter${SAMP}M && \
 	lighter -K 31 60000000 -r ${DIR}/reads/${SAMP}.subsamp_1.fastq -r ${DIR}/reads/${SAMP}.subsamp_2.fastq -t $(CPU) && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus subsamp_1.cor.fq subsamp_2.cor.fq > ${SAMP}M.lighter.sam && \
+	bwa mem -t $(CPU) ${DIR}/genome/mus ${SAMP}.subsamp_1.cor.fq ${SAMP}.subsamp_2.cor.fq > ${SAMP}M.lighter.sam && \
 	k8 ~/bfc/errstat.js ${DIR}/lighter${SAMP}M/${SAMP}M.lighter.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.lighter.out
 
 lighter_trinity:
