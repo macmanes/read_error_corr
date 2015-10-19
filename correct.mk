@@ -129,11 +129,13 @@ seecer_trinity:
 rcorrector:
 	mkdir -p ${DIR}/rcorr${SAMP}M
 	cd ${DIR}/rcorr${SAMP}M && \
-	perl ~/Rcorrector/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -2 ${DIR}/reads/${SAMP}.subsamp_2.fastq
+	perl ~/Rcorrector/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -2 ${DIR}/reads/${SAMP}.subsamp_2.fastq && \
+	bwa mem -t $(CPU) ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_1.cor.fq ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_2.cor.fq > ${SAMP}M.rcorr.sam && \
+	k8 ~/bfc/errstat.js ${DIR}/rcorr${SAMP}M/${SAMP}M.rcorr.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.rcorr.out
 
 rcorr_trinity:
 	cd ${DIR}/rcorr${SAMP}M && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/subsamp_1.cor.fq --right ${DIR}/rcorr${SAMP}M/subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_1.cor.fq --right ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
 trinity_raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq
