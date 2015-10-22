@@ -94,8 +94,8 @@ sga_trinity:
 	cd ${DIR}/sga${SAMP}M && \
 	split-paired-reads.py sga.55.fq && \
 	split-paired-reads.py sga.31.fq && \
-	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga55 --trimmomatic --left sga.55.fq.1 --right sga.55.fq.2 --CPU $(CPU) --output trinity_sga55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga31 --trimmomatic --left sga.31.fq.1 --right sga.31.fq.2 --CPU $(CPU) --output trinity_sga31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga55 --trimmomatic --left sga.55.fq.1 --right sga.55.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga31 --trimmomatic --left sga.31.fq.1 --right sga.31.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
 bfc:
