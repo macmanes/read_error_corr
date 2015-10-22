@@ -80,7 +80,7 @@ bless:
 	mkdir -p ${DIR}/bless${SAMP}M
 	cd ${DIR}/bless${SAMP}M && \
 	mkdir -p ${DIR}/bless${SAMP}M/kmc/bin/ && \
-	cp ${KMC}/bin/kmc ${DIR}/bless${SAMP}M/kmc/bin/kmc && \
+	cp ${KMC}/kmc/bin/kmc ${DIR}/bless${SAMP}M/kmc/bin/kmc && \
 	mpirun -np $(CPU) bless -notrim -read1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -read2 ${DIR}/reads/${SAMP}.subsamp_2.fastq -prefix ${SAMP}M_bless55 -kmerlength 55 && \
 	mpirun -np $(CPU) bless -notrim -read1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -read2 ${DIR}/reads/${SAMP}.subsamp_2.fastq -prefix ${SAMP}M_bless31 -kmerlength 31 && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${SAMP}M_bless55.1.corrected.fastq ${SAMP}M_bless55.2.corrected.fastq > ${SAMP}M.bless55.sam && \
