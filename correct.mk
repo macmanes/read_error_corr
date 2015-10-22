@@ -49,6 +49,8 @@ raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq
 	mkdir -p ${DIR}/raw
 	cd ${DIR}/raw && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq > ${SAMP}M.raw.sam
+	k8 ~/bfc/errstat.js ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.raw.out
+
 
 lighter:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq
 	mkdir -p ${DIR}/lighter${SAMP}M
