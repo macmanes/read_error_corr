@@ -20,6 +20,8 @@ main: subsamp_reads raw trinity_raw lighter lighter_trinity bless bless_trinity 
 	rcorrector rcorr_trinity
 runseecer: seecer seecer_trinity
 
+subsamp_reads:${SAMP}.subsamp_1.fastq ${SAMP}.subsamp_2.fastq
+
 .DELETE_ON_ERROR:
 
 scripts:
@@ -40,7 +42,7 @@ reference:
 	wget ftp://ftp.ensembl.org/pub/release-79/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.chromosome.1.fa.gz && \
 	bwa index -p mus Mus_musculus.GRCm38.dna.chromosome.1.fa.gz
 
-subsamp_reads:
+${SAMP}.subsamp_1.fastq ${SAMP}.subsamp_2.fastq:
 	cd ${DIR}/reads && \
 	seqtk sample -s102340 ${READ1} ${SAMP}000000 | sed 's_ H_-H_g' | tee ${SAMP}.subsamp_1.fastq && \
 	seqtk sample -s102340 ${READ2} ${SAMP}000000 | sed 's_ H_-H_g' | tee ${SAMP}.subsamp_2.fastq
