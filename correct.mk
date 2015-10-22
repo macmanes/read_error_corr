@@ -22,6 +22,7 @@ runseecer: seecer seecer_trinity
 subsamp_reads:${SAMP}.subsamp_1.fastq ${SAMP}.subsamp_2.fastq
 
 .DELETE_ON_ERROR:
+.PHONY:setup scripts
 
 setup:
 	mkdir ${DIR}/error_profiles
