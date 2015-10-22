@@ -59,7 +59,7 @@ lighter:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fast
 
 lighter_trinity:
 	cd ${DIR}/lighter${SAMP}M && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}.subsamp_1.cor.fq --right ${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.lighter.trinity --trimmomatic --left ${SAMP}.subsamp_1.cor.fq --right ${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 bless:
 	mkdir -p ${DIR}/bless${SAMP}M
@@ -75,8 +75,8 @@ bless:
 
 bless_trinity:
 	cd ${DIR}/bless${SAMP}M && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}M_bless55.1.corrected.fastq --right ${SAMP}M_bless55.2.corrected.fastq --CPU $(CPU) --output trinity_bless55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}M_bless31.1.corrected.fastq --right ${SAMP}M_bless31.2.corrected.fastq --CPU $(CPU) --output trinity_bless31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}M_bless55.1.corrected.fastq --right ${SAMP}M_bless55.2.corrected.fastq --CPU $(CPU) --output ${SAMP}M.trinity_bless55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}M_bless31.1.corrected.fastq --right ${SAMP}M_bless31.2.corrected.fastq --CPU $(CPU) --output ${SAMP}M.trinity_bless31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 sga:
 	mkdir -p ${DIR}/sga${SAMP}M
@@ -94,8 +94,8 @@ sga_trinity:
 	cd ${DIR}/sga${SAMP}M && \
 	split-paired-reads.py sga.55.fq && \
 	split-paired-reads.py sga.31.fq && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left sga.55.fq.1 --right sga.55.fq.2 --CPU $(CPU) --output trinity_sga55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left sga.31.fq.1 --right sga.31.fq.2 --CPU $(CPU) --output trinity_sga31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga55 --trimmomatic --left sga.55.fq.1 --right sga.55.fq.2 --CPU $(CPU) --output trinity_sga55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga31 --trimmomatic --left sga.31.fq.1 --right sga.31.fq.2 --CPU $(CPU) --output trinity_sga31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
 bfc:
@@ -111,8 +111,8 @@ bfc_trinity:
 	cd ${DIR}/bfc${SAMP}M && \
 	split-paired-reads.py bfc55.corr.fq && \
 	split-paired-reads.py bfc31.corr.fq && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 --CPU $(CPU) --output trinity_bfc55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc31.corr.fq.1 --right bfc31.corr.fq.2 --CPU $(CPU) --output trinity_bfc31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 --CPU $(CPU) --output ${SAMP}M.trinity_bfc55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc31.corr.fq.1 --right bfc31.corr.fq.2 --CPU $(CPU) --output ${SAMP}M.trinity_bfc31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
 seecer:
@@ -124,7 +124,7 @@ seecer:
 
 seecer_trinity:
 	cd ${DIR}/seecer${SAMP}M && \
-	Trinity --seqType fa --max_memory 50G --trimmomatic --left ${DIR}/reads/${SAMP}.subsamp_1.fastq_corrected.fa --right ${DIR}/reads/${SAMP}.subsamp_2.fastq_corrected.fa --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fa --max_memory 50G --output ${SAMP}M.seecer --trimmomatic --left ${DIR}/reads/${SAMP}.subsamp_1.fastq_corrected.fa --right ${DIR}/reads/${SAMP}.subsamp_2.fastq_corrected.fa --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 rcorrector:
 	mkdir -p ${DIR}/rcorr${SAMP}M
@@ -135,7 +135,7 @@ rcorrector:
 
 rcorr_trinity:
 	cd ${DIR}/rcorr${SAMP}M && \
-	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_1.cor.fq --right ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_1.cor.fq --right ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 
 
 trinity_raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq
