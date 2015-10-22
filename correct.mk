@@ -13,6 +13,8 @@ CPU=16
 SAMP=10
 BFC ?= ${shell which bfc}
 BFCDIR := $(dir $(firstword $(BFC)))
+BLESS ?= ${shell which bless}
+KMC := $(dir $(firstword $(BFC)))
 READ1=SRR797058_1.fastq.gz
 READ2=SRR797058_2.fastq.gz
 
@@ -77,8 +79,8 @@ lighter_trinity:
 bless:
 	mkdir -p ${DIR}/bless${SAMP}M
 	cd ${DIR}/bless${SAMP}M && \
-	mkdir -p /mnt/bless$(SAMP)M/kmc/bin/ && \
-	cp /home/ubuntu/v0p24/kmc/bin/kmc /mnt/bless$(SAMP)M/kmc/bin/kmc && \
+	mkdir -p ${DIR}/bless${SAMP}M/kmc/bin/ && \
+	cp ${KMC}/bin/kmc ${DIR}/bless${SAMP}M/kmc/bin/kmc && \
 	mpirun -np $(CPU) bless -notrim -read1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -read2 ${DIR}/reads/${SAMP}.subsamp_2.fastq -prefix ${SAMP}M_bless55 -kmerlength 55 && \
 	mpirun -np $(CPU) bless -notrim -read1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -read2 ${DIR}/reads/${SAMP}.subsamp_2.fastq -prefix ${SAMP}M_bless31 -kmerlength 31 && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${SAMP}M_bless55.1.corrected.fastq ${SAMP}M_bless55.2.corrected.fastq > ${SAMP}M.bless55.sam && \
