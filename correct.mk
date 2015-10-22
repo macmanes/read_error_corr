@@ -15,6 +15,8 @@ BFC ?= ${shell which bfc}
 BFCDIR := $(dir $(firstword $(BFC)))
 BLESS ?= ${shell which bless}
 KMC := $(dir $(firstword $(BLESS)))
+RCORR ?= ${shell which rcorrector}
+RCORRDIR := $(dir $(firstword $(rcorrector)))
 READ1=SRR797058_1.fastq.gz
 READ2=SRR797058_2.fastq.gz
 
@@ -160,7 +162,7 @@ seecer_trinity:
 rcorrector:
 	mkdir -p ${DIR}/rcorr${SAMP}M
 	cd ${DIR}/rcorr${SAMP}M && \
-	perl ~/Rcorrector/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -2 ${DIR}/reads/${SAMP}.subsamp_2.fastq && \
+	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -2 ${DIR}/reads/${SAMP}.subsamp_2.fastq && \
 	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_1.cor.fq ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_2.cor.fq > ${SAMP}M.rcorr.sam && \
 	k8 ${BFCDIR}/errstat.js ${DIR}/rcorr${SAMP}M/${SAMP}M.rcorr.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.rcorr.out && \
 	mv ${SAMP}M.rcorr.out ${DIR}/error_profiles/ && \
