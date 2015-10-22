@@ -14,7 +14,7 @@ SAMP=10
 BFC ?= ${shell which bfc}
 BFCDIR := $(dir $(firstword $(BFC)))
 BLESS ?= ${shell which bless}
-KMC := $(dir $(firstword $(BFC)))
+KMC := $(dir $(firstword $(BLESS)))
 READ1=SRR797058_1.fastq.gz
 READ2=SRR797058_2.fastq.gz
 
