@@ -116,8 +116,8 @@ sga:
 
 sga_trinity:
 	cd ${DIR}/sga${SAMP}M && \
-	split-paired-reads.py sga.55.fq && \
-	split-paired-reads.py sga.31.fq && \
+	split-paired-reads.py -0 /dev/null sga.55.fq && \
+	split-paired-reads.py -0 /dev/null sga.31.fq && \
 	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga55 --trimmomatic --left sga.55.fq.1 --right sga.55.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga31 --trimmomatic --left sga.31.fq.1 --right sga.31.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	mv *fasta ${DIR}/assemblies/
@@ -171,8 +171,8 @@ rcorrector:${DIR}/reads/${SAMP}.inter.fq
 
 rcorr_trinity:
 	cd ${DIR}/rcorr${SAMP}M && \
-	split-paired-reads.py corr31.corr.fq && \	
-	split-paired-reads.py corr55.corr.fq && \	
+	split-paired-reads.py -0 /dev/null corr31.corr.fq && \	
+	split-paired-reads.py -0 /dev/null corr55.corr.fq && \	
 	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr31 --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/corr31.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/corr31.corr.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr55 --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/corr55.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/corr55.corr.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	mv *fasta ${DIR}/assemblies/
