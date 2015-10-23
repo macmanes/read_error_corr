@@ -16,7 +16,7 @@ BFCDIR := $(dir $(firstword $(BFC)))
 BLESS ?= ${shell which bless}
 KMC := $(dir $(firstword $(BLESS)))
 RCORR ?= ${shell which rcorrector}
-RCORRDIR := $(dir $(firstword $(rcorrector)))
+RCORRDIR := $(dir $(firstword $(RCORR)))
 READ1=SRR797058_1.fastq.gz
 READ2=SRR797058_2.fastq.gz
 
