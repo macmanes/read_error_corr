@@ -184,4 +184,3 @@ trinity_raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.
 	cd ${DIR}/trinity_${SAMP}M && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --output trinity_${SAMP}M.P2.raw --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	mv *fasta ${DIR}/assemblies/
-sed
