@@ -53,8 +53,8 @@ reference:
 
 ${SAMP}.subsamp_1.fastq ${SAMP}.subsamp_2.fastq:
 	cd ${DIR}/reads && \
-	seqtk sample -s102340 ${READ1} ${SAMP}000000 | sed 's_ H_-H_g' > tee ${SAMP}.subsamp_1.fastq && \
-	seqtk sample -s102340 ${READ2} ${SAMP}000000 | sed 's_ H_-H_g' > tee ${SAMP}.subsamp_2.fastq
+	seqtk sample -s102340 ${READ1} ${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}.subsamp_1.fastq && \
+	seqtk sample -s102340 ${READ2} ${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}.subsamp_2.fastq
 
 raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq
 	mkdir -p ${DIR}/raw
@@ -126,9 +126,9 @@ sga_trinity:
 bfc:
 	mkdir -p ${DIR}/bfc${SAMP}M
 	cd ${DIR}/bfc${SAMP}M && \
-	seqtk mergepe ${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq > inter.fq && \
-	bfc -s 50m -k55 -t $(CPU) inter.fq | tee bfc55.corr.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.bfc55.sam && \
-	bfc -s 50m -k31 -t $(CPU) inter.fq | tee bfc31.corr.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.bfc31.sam && \
+	seqtk mergepe ${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq > ${DIR}/reads/${SAMP}.inter.fq && \
+	bfc -s 50m -k55 -t $(CPU) ${DIR}/reads/${SAMP}.inter.fq | tee bfc55.corr.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.bfc55.sam && \
+	bfc -s 50m -k31 -t $(CPU) ${DIR}/reads/${SAMP}.inter.fq | tee bfc31.corr.fq | bwa mem -p -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.bfc31.sam && \
 	k8 ${BFCDIR}/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bfc55.out && \
 	k8 ${BFCDIR}/errstat.js ${DIR}/bfc${SAMP}M/${SAMP}M.bfc31.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.bfc31.out && \
 	mv ${SAMP}M.bfc31.out ${DIR}/error_profiles/ && \
@@ -159,18 +159,22 @@ seecer_trinity:
 	Trinity --seqType fa --max_memory 50G --output ${SAMP}M.seecer --trimmomatic --left ${DIR}/reads/${SAMP}.subsamp_1.fastq_corrected.fa --right ${DIR}/reads/${SAMP}.subsamp_2.fastq_corrected.fa --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	mv *fasta ${DIR}/assemblies/
 
-rcorrector:
+rcorrector:${DIR}/reads/${SAMP}.inter.fq
 	mkdir -p ${DIR}/rcorr${SAMP}M
 	cd ${DIR}/rcorr${SAMP}M && \
-	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 25 -1 ${DIR}/reads/${SAMP}.subsamp_1.fastq -2 ${DIR}/reads/${SAMP}.subsamp_2.fastq && \
-	bwa mem -t $(CPU) ${DIR}/genome/mus ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_1.cor.fq ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_2.cor.fq > ${SAMP}M.rcorr.sam && \
-	k8 ${BFCDIR}/errstat.js ${DIR}/rcorr${SAMP}M/${SAMP}M.rcorr.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.rcorr.out && \
-	mv ${SAMP}M.rcorr.out ${DIR}/error_profiles/ && \
+	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 31 -i ${DIR}/reads/${SAMP}.inter.fq -stdout | tee rcorr31.corr.fq | bwa mem -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.rcorr31.sam && \
+	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 55 -i ${DIR}/reads/${SAMP}.inter.fq -stdout | tee rcorr55.corr.fq | bwa mem -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.rcorr55.sam && \
+	k8 ${BFCDIR}/errstat.js ${SAMP}M.rcorr31.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.rcorr31.out && \
+	k8 ${BFCDIR}/errstat.js ${SAMP}M.rcorr55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.rcorr55.out && \
+	mv ${SAMP}M.*.out ${DIR}/error_profiles/ && \
 	rm *sam
 
 rcorr_trinity:
 	cd ${DIR}/rcorr${SAMP}M && \
-	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_1.cor.fq --right ${DIR}/rcorr${SAMP}M/${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	split-paired-reads.py corr31.corr.fq && \	
+	split-paired-reads.py corr55.corr.fq && \	
+	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr31 --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/corr31.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/corr31.corr.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr55 --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/corr55.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/corr55.corr.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	mv *fasta ${DIR}/assemblies/
 
 
