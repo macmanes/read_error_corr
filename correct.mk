@@ -123,7 +123,7 @@ sga_trinity:
 	mv *fasta ${DIR}/assemblies/
 
 
-bfc:
+bfc ${DIR}/reads/${SAMP}.inter.fq:
 	mkdir -p ${DIR}/bfc${SAMP}M
 	cd ${DIR}/bfc${SAMP}M && \
 	seqtk mergepe ${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq > ${DIR}/reads/${SAMP}.inter.fq && \
