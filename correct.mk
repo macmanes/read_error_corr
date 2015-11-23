@@ -162,8 +162,8 @@ seecer_trinity:
 rcorrector:${DIR}/reads/${SAMP}.inter.fq
 	mkdir -p ${DIR}/rcorr${SAMP}M
 	cd ${DIR}/rcorr${SAMP}M && \
-	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 31 -i ${DIR}/reads/${SAMP}.inter.fq -stdout | sed 1,8d | bwa mem -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.rcorr31.sam && \
-	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 55 -i ${DIR}/reads/${SAMP}.inter.fq -stdout | sed 1,8d | bwa mem -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.rcorr55.sam && \
+	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 31 -i ${DIR}/reads/${SAMP}.inter.fq -stdout | sed 1,8d | tee rcorr31.corr.fq| bwa mem -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.rcorr31.sam && \
+	perl ${RCORRDIR}/run_rcorrector.pl -t $(CPU) -k 55 -i ${DIR}/reads/${SAMP}.inter.fq -stdout | sed 1,8d | tee rcorr55.corr.fq | bwa mem -t $(CPU) ${DIR}/genome/mus - > ${SAMP}M.rcorr55.sam && \
 	k8 ${BFCDIR}/errstat.js ${SAMP}M.rcorr31.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.rcorr31.out && \
 	k8 ${BFCDIR}/errstat.js ${SAMP}M.rcorr55.sam ${DIR}/raw/${SAMP}M.raw.sam | tail -11 > ${SAMP}M.rcorr55.out && \
 	mv ${SAMP}M.*.out ${DIR}/error_profiles/ && \
