@@ -76,7 +76,7 @@ lighter:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fast
 lighter_trinity:
 	cd ${DIR}/lighter${SAMP}M && \
 	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity.lighter --trimmomatic --left ${SAMP}.subsamp_1.cor.fq --right ${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity.lighter.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity.lighter.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
 	mv *fasta ${DIR}/assemblies/
 
 bless:
@@ -98,8 +98,8 @@ bless_trinity:
 	cd ${DIR}/bless${SAMP}M && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}M_bless55.1.corrected.fastq --right ${SAMP}M_bless55.2.corrected.fastq --CPU $(CPU) --output ${SAMP}M.trinity_bless55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left ${SAMP}M_bless31.1.corrected.fastq --right ${SAMP}M_bless31.2.corrected.fastq --CPU $(CPU) --output ${SAMP}M.trinity_bless31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bless55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bless31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bless55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bless31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
 	mv *fasta ${DIR}/assemblies/
 
 sga:
@@ -123,8 +123,8 @@ sga_trinity:
 	split-paired-reads.py sga.31.fq && \
 	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga55 --trimmomatic --left sga.55.fq.1 --right sga.55.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	Trinity --seqType fq --max_memory 50G --output ${SAMP}M.trinity_sga31 --trimmomatic --left sga.31.fq.1 --right sga.31.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_sga55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_sga31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_sga55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_sga31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
 	mv *fasta ${DIR}/assemblies/
 
 
@@ -146,8 +146,8 @@ bfc_trinity:
 	split-paired-reads.py bfc31.corr.fq && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 --CPU $(CPU) --output ${SAMP}M.trinity_bfc55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left bfc31.corr.fq.1 --right bfc31.corr.fq.2 --CPU $(CPU) --output ${SAMP}M.trinity_bfc31 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bfc55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bfc31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bfc55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bfc31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
 	mv *fasta ${DIR}/assemblies/
 
 
@@ -164,7 +164,7 @@ seecer:
 seecer_trinity:
 	cd ${DIR}/seecer${SAMP}M && \
 	Trinity --seqType fa --max_memory 50G --output ${SAMP}M.seecer --trimmomatic --left ${DIR}/reads/${SAMP}.subsamp_1.fastq_corrected.fa --right ${DIR}/reads/${SAMP}.subsamp_2.fastq_corrected.fa --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_seecer.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_seecer.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
 	mv *fasta ${DIR}/assemblies/
 
 rcorrector:${DIR}/reads/${SAMP}.inter.fq
@@ -183,8 +183,8 @@ rcorr_trinity:
 	split-paired-reads.py rcorr55.corr.fq && \
 	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr31 --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/rcorr31.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/rcorr31.corr.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	Trinity --seqType fq --output ${SAMP}M.trinity_rcorr55 --max_memory 50G --trimmomatic --left ${DIR}/rcorr${SAMP}M/rcorr55.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/rcorr55.corr.fq.2 --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_rcorr55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_rcorr31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_rcorr55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g ${SAMP}M.trinity_rcorr31.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
 	mv *fasta ${DIR}/assemblies/
 
 
@@ -192,5 +192,5 @@ trinity_raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.
 	mkdir -p ${DIR}/trinity_${SAMP}M
 	cd ${DIR}/trinity_${SAMP}M && \
 	Trinity --seqType fq --max_memory 50G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --output trinity_${SAMP}M.P2.raw --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g trinity_${SAMP}M.P2.raw.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 BUSCO_v1.1b1.py -g trinity_${SAMP}M.P2.raw.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
 	mv *fasta ${DIR}/assemblies/
