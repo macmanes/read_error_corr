@@ -4,7 +4,7 @@ SHELL=/bin/bash -o pipefail
 
 #USAGE:
 #
-#	for i in 10 20 30 40 50 60 70 80 90 100; do ./correct.mk main SAMP=$i CPU=36; done
+#	for i in 1 2 5 10 20 40 60 80 100; do ./correct.mk main SAMP=$i CPU=36; done
 #
 
 MAKEDIR := $(dir $(firstword $(MAKEFILE_LIST)))
