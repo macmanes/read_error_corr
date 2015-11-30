@@ -22,9 +22,7 @@ READ2=SRR1659968_2.fastq
 
 
 prep: download_reads scripts reference
-main: setup subsamp_reads raw trinity_raw lighter lighter_trinity bless bless_trinity sga sga_trinity bfc bfc_trinity \
-      rcorrector rcorr_trinity
-runseecer: seecer seecer_trinity
+main: setup subsamp_reads raw trinity_raw lighter lighter_trinity bless bless_trinity bfc bfc_trinity rcorrector rcorr_trinity seecer seecer_trinity
 subsamp_reads:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.fastq
 
 .DELETE_ON_ERROR:
