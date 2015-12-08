@@ -78,7 +78,7 @@ lighter_trinity:
 	Trinity --SS_lib_type RF --seqType fq --max_memory 50G --output ${SAMP}M.trinity.lighter --trimmomatic --left ${SAMP}.subsamp_1.cor.fq --right ${SAMP}.subsamp_2.cor.fq --CPU $(CPU) --inchworm_cpu 10 --full_cleanup --quality_trimmi
 ng_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.lighter -g ${SAMP}M.trinity.lighter.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
-	transrate -o ${SAMP}M.lighter -a ${SAMP}M.trinity.lighter.Trinity.fasta --left ${SAMP}.subsamp_1.cor.fq --right ${SAMP}.subsamp_2.cor.fq -t $(CPU) && \
+	transrate -o ${SAMP}M.lighter -a ${SAMP}M.trinity.lighter.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
 
 bless:
@@ -104,8 +104,8 @@ nup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 L
 nup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.bless55  -g ${SAMP}M.trinity_bless55.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.bless31 -g ${SAMP}M.trinity_bless31.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
-	transrate -o ${SAMP}M.bless55 -a ${SAMP}M.trinity_bless55.Trinity.fasta --left ${SAMP}M_bless55.1.corrected.fastq --right ${SAMP}M_bless55.2.corrected.fastq -t $(CPU) && \
-	transrate -o ${SAMP}M.bless31 -a ${SAMP}M.trinity_bless31.Trinity.fasta --left ${SAMP}M_bless31.1.corrected.fastq --right ${SAMP}M_bless31.2.corrected.fastq -t $(CPU) && \
+	transrate -o ${SAMP}M.bless55 -a ${SAMP}M.trinity_bless55.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
+	transrate -o ${SAMP}M.bless31 -a ${SAMP}M.trinity_bless31.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
 
 bfc ${DIR}/reads/${SAMP}.inter.fq:
@@ -130,8 +130,8 @@ LIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 LIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.bfc55 -g ${SAMP}M.trinity_bfc55.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.bfc31 -g ${SAMP}M.trinity_bfc31.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
-	transrate -o ${SAMP}M.bfc55 -a ${SAMP}M.trinity_bfc55.Trinity.fasta --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 -t $(CPU) && \
-	transrate -o ${SAMP}M.bfc31 -a ${SAMP}M.trinity_bfc31.Trinity.fasta --left bfc31.corr.fq.1 --right bfc31.corr.fq.2 -t $(CPU) && \
+	transrate -o ${SAMP}M.bfc55 -a ${SAMP}M.trinity_bfc55.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
+	transrate -o ${SAMP}M.bfc31 -a ${SAMP}M.trinity_bfc31.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
 
 
@@ -150,7 +150,7 @@ seecer_trinity:
 	Trinity --seqType fa --SS_lib_type RF --max_memory 50G --output ${SAMP}M.seecer --trimmomatic --left ${DIR}/reads/${SAMP}.subsamp_1.fastq_corrected.fa --right ${DIR}/reads/${SAMP}.subsamp_2.fastq_corrected.fa --CPU $(CPU) --inchwo
 rm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.seecer -g ${SAMP}M.trinity_seecer.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
-	transrate -o ${SAMP}M.seecer -a ${SAMP}M.trinity_seecer.Trinity.fasta --left ${DIR}/reads/${SAMP}.subsamp_1.fastq_corrected.fa --right ${DIR}/reads/${SAMP}.subsamp_2.fastq_corrected.fa -t $(CPU) && \
+	transrate -o ${SAMP}M.seecer -a ${SAMP}M.trinity_seecer.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
 
 rcorrector:${DIR}/reads/${SAMP}.inter.fq
@@ -173,8 +173,8 @@ ull_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2
 ull_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.rcorr55 -g ${SAMP}M.trinity_rcorr55.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.rcocc31 -g ${SAMP}M.trinity_rcorr31.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
-	transrate -o ${SAMP}M.rcorr55 -a ${SAMP}M.trinity_rcorr55.Trinity.fasta --left ${DIR}/rcorr${SAMP}M/rcorr55.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/rcorr55.corr.fq.2 -t $(CPU) && \
-	transrate -o ${SAMP}M.rcorr31 -a ${SAMP}M.trinity_rcorr31.Trinity.fasta --left ${DIR}/rcorr${SAMP}M/rcorr31.corr.fq.1 --right ${DIR}/rcorr${SAMP}M/rcorr31.corr.fq.2 -t $(CPU) && \
+	transrate -o ${SAMP}M.rcorr55 -a ${SAMP}M.trinity_rcorr55.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
+	transrate -o ${SAMP}M.rcorr31 -a ${SAMP}M.trinity_rcorr31.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
 
 
@@ -184,5 +184,5 @@ trinity_raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.
 	Trinity --seqType fq --max_memory 50G --SS_lib_type RF --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --output trinity_${SAMP}M.P2.raw --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scri
 pts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 ~/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.raw -g trinity_${SAMP}M.P2.raw.Trinity.fasta -m Trans --cpu $(CPU) -l ~/BUSCO_v1.1b1/vertebrata && \
-	transrate -o ${SAMP}M.raw -a trinity_${SAMP}M.P2.raw.Trinity.fasta --left $< --right $(word 2,$^) -t $(CPU) && \
+	transrate -o ${SAMP}M.raw -a trinity_${SAMP}M.P2.raw.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
