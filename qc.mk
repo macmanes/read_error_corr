@@ -39,7 +39,7 @@ QC:
 	cd ${DIR}/QC && \
 	python3 ${BUSCODIR}BUSCO_v1.1b1.py -o RAW_BUSCO_${ASSEMBLY} -g ../assemblies/${ASSEMBLY} -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
 	transrate --output RAW_TRANSRATE_${ASSEMBLY} -a ../assemblies/${ASSEMBLY} --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
-	python3 ${BUSCODIR}BUSCO_v1.1b1.py -o GOOD_BUSCO_${ASSEMBLY} -g RAW_BUSCO_${ASSEMBLY}/good*fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
+	python3 ${BUSCODIR}BUSCO_v1.1b1.py -o GOOD_BUSCO_${ASSEMBLY} -g RAW_BUSCO_${ASSEMBLY}/*/good*fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
 	kallisto index -i kallisto.idx ../assemblies/${ASSEMBLY} && \
 	kallisto quant -t $(CPU) -i kallisto.idx -o kallisto_orig -b 100 ${DIR}/reads/${READ1} ${DIR}/reads/${READ2} && \
 	~/salmon-0.5.1/bin/salmon index -t ../assemblies/${ASSEMBLY} -i salmon.idx --type quasi -k 31 && \
