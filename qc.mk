@@ -76,12 +76,9 @@ diginorm:
 	split-paired-reads.py ${SAMP}c.norm.fastq && \
 	mv ${SAMP}c.norm.fastq.1 ${SAMP}c.norm.1.fastq && \
 	mv ${SAMP}c.norm.fastq.2 ${SAMP}c.norm.2.fastq && \
-	Trinity --seqType fq --max_memory 20G --trimmomatic --left ${SAMP}a.norm.1.fastq --right ${SAMP}a.norm.2.fastq --CPU $(CPU) --output ${SAMP}mus_A_C30_trinity --inchworm_cpu 6 --full_cleanup --qual
-ity_trimming_params "ILLUMINACLIP:/home/ubuntu/trinityrnaseq/trinity-plugins/Trimmomatic/adapters/TruSeq3-PE.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	Trinity --seqType fq --max_memory 20G --trimmomatic --left ${SAMP}b.norm.1.fastq --right ${SAMP}b.norm.2.fastq --CPU $(CPU) --output ${SAMP}mus_B_C30_trinity --inchworm_cpu 6 --full_cleanup --qual
-ity_trimming_params "ILLUMINACLIP:/home/ubuntu/trinityrnaseq/trinity-plugins/Trimmomatic/adapters/TruSeq3-PE.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	Trinity --seqType fq --max_memory 20G --trimmomatic --left ${SAMP}c.norm.1.fastq --right ${SAMP}c.norm.2.fastq --CPU $(CPU) --output ${SAMP}mus_C_C30_trinity --inchworm_cpu 6 --full_cleanup --qual
-ity_trimming_params "ILLUMINACLIP:/home/ubuntu/trinityrnaseq/trinity-plugins/Trimmomatic/adapters/TruSeq3-PE.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --max_memory 20G --trimmomatic --left ${SAMP}a.norm.1.fastq --right ${SAMP}a.norm.2.fastq --CPU $(CPU) --output ${SAMP}mus_A_C30_trinity --inchworm_cpu 6 --full_cleanup --quality_trimming_params "ILLUMINACLIP:/home/ubuntu/trinityrnaseq/trinity-plugins/Trimmomatic/adapters/TruSeq3-PE.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --max_memory 20G --trimmomatic --left ${SAMP}b.norm.1.fastq --right ${SAMP}b.norm.2.fastq --CPU $(CPU) --output ${SAMP}mus_B_C30_trinity --inchworm_cpu 6 --full_cleanup --quality_trimming_params "ILLUMINACLIP:/home/ubuntu/trinityrnaseq/trinity-plugins/Trimmomatic/adapters/TruSeq3-PE.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
+	Trinity --seqType fq --max_memory 20G --trimmomatic --left ${SAMP}c.norm.1.fastq --right ${SAMP}c.norm.2.fastq --CPU $(CPU) --output ${SAMP}mus_C_C30_trinity --inchworm_cpu 6 --full_cleanup --quality_trimming_params "ILLUMINACLIP:/home/ubuntu/trinityrnaseq/trinity-plugins/Trimmomatic/adapters/TruSeq3-PE.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 ${BUSCODIR}BUSCO_v1.1b1.py  -g ${SAMP}mus_A_C30_trinity.Trinity.fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
 	python3 ${BUSCODIR}BUSCO_v1.1b1.py  -g ${SAMP}mus_B_C30_trinity.Trinity.fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
 	python3 ${BUSCODIR}BUSCO_v1.1b1.py  -g ${SAMP}mus_C_C30_trinity.Trinity.fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
