@@ -37,20 +37,20 @@ download_reads:
 QC:
 	mkdir -p ${DIR}/QC
 	cd ${DIR}/QC && \
-	#python3 ${BUSCODIR}BUSCO_v1.1b1.py -o RAW_BUSCO_${ASSEMBLY} -g ../assemblies/${ASSEMBLY} -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
-	#transrate --output RAW_TRANSRATE_${ASSEMBLY} -a ../assemblies/${ASSEMBLY} --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
-	#python3 ${BUSCODIR}BUSCO_v1.1b1.py -o GOOD_BUSCO_${ASSEMBLY} -g RAW_TRANSRATE_${ASSEMBLY}/*/good*fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
+	python3 ${BUSCODIR}BUSCO_v1.1b1.py -o RAW_BUSCO_${ASSEMBLY} -g ../assemblies/${ASSEMBLY} -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
+	transrate --output RAW_TRANSRATE_${ASSEMBLY} -a ../assemblies/${ASSEMBLY} --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU) && \
+	python3 ${BUSCODIR}BUSCO_v1.1b1.py -o GOOD_BUSCO_${ASSEMBLY} -g RAW_TRANSRATE_${ASSEMBLY}/*/good*fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
 	kallisto index -i kallisto.idx ../assemblies/${ASSEMBLY} && \
 	kallisto quant -t $(CPU) -i kallisto.idx -o kallisto_orig -b 100 ${DIR}/reads/${READ1} ${DIR}/reads/${READ2} && \
-	~/salmon-0.5.1/bin/salmon index -t ../assemblies/${ASSEMBLY} -i salmon.idx --type quasi -k 31 && \
-	~/salmon-0.5.1/bin/salmon quant -p $(CPU) -i salmon.idx -l MSR -1 ${DIR}/reads/${READ1} -2 ${DIR}/reads/${READ2} -o salmon_orig && \
+	salmon index -t ../assemblies/${ASSEMBLY} -i salmon.idx --type quasi -k 31 && \
+	salmon quant -p $(CPU) -i salmon.idx -l MSR -1 ${DIR}/reads/${READ1} -2 ${DIR}/reads/${READ2} -o salmon_orig && \
 	awk '1>$$5{next}1' kallisto_orig/abundance.tsv | awk '{print $$1}' > list && \
 	awk '1>$$3{next}1' salmon_orig/quant.sf | sed  '1,10d' | awk '{print $$1}' > list2 && \
 	sed -i ':begin;$!N;/[ACTGNn-]\n[ACTGNn-]/s/\n//;tbegin;P;D' ../assemblies/${ASSEMBLY} && \
 	cat list list2 | sort -u > list_final && \
-	for i in $$(cat list_final); do grep --no-group-separator --max-count=1 -A1 -w $i ../assemblies/${ASSEMBLY} >> ${RUN}.Trinity.fasta; done && \
+	for i in $$(cat list_final); do grep --no-group-separator --max-count=1 -A1 -w $$i ../assemblies/${ASSEMBLY} >> ${RUN}.Trinity.fasta; done && \
 	python3 ${BUSCODIR}BUSCO_v1.1b1.py -o TPM_FILT_BUSCO_${RUN} -g ${RUN}.Trinity.fasta -m Trans --cpu $(CPU) -l ${BUSCODIR}/vertebrata && \
-	transrate -o ${SAMP}M.bless55 --output TPM_FILT_TRANSRATE_${RUN} -a ${RUN}.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU)
+	transrate --output TPM_FILT_TRANSRATE_${RUN} -a ${RUN}.Trinity.fasta --left ${DIR}/reads/${READ1} --right ${DIR}/reads/${READ2} -t $(CPU)
 
 diginorm:
 	mkdir -p ${DIR}/diginorm
