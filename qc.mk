@@ -62,15 +62,15 @@ diginorm:
 	split-paired-reads.py ${SAMP}a.norm.fastq && \
 	mv ${SAMP}a.norm.fastq.1 ${SAMP}a.norm.1.fastq && \
 	mv ${SAMP}a.norm.fastq.2 ${SAMP}a.norm.2.fastq && \
-	seqtk sample -s222323440 ${READ1} ../reads/${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}b.subsamp_1.fastq && \
-	seqtk sample -s222323440 ${READ2} ../reads/${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}b.subsamp_2.fastq && \
+	seqtk sample -s222323440 ../reads/${READ1} ${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}b.subsamp_1.fastq && \
+	seqtk sample -s222323440 ../reads/${READ2} ${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}b.subsamp_2.fastq && \
 	seqtk mergepe ${SAMP}b.subsamp_1.fastq ${SAMP}b.subsamp_2.fastq > ${SAMP}b.interleave.fastq && \
 	normalize-by-median.py --max-memory-usage 4e9 -C 30 -o ${SAMP}b.norm.fastq ${SAMP}b.interleave.fastq && \
 	split-paired-reads.py ${SAMP}b.norm.fastq && \
 	mv ${SAMP}b.norm.fastq.1 ${SAMP}b.norm.1.fastq && \
 	mv ${SAMP}b.norm.fastq.2 ${SAMP}b.norm.2.fastq && \
-	seqtk sample -s76232344098 ${READ1} ../reads/${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}c.subsamp_1.fastq && \
-	seqtk sample -s76232344098 ${READ2} ../reads/${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}c.subsamp_2.fastq && \
+	seqtk sample -s76232344098 ../reads/${READ1} ${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}c.subsamp_1.fastq && \
+	seqtk sample -s76232344098 ../reads/${READ2} ${SAMP}000000 | sed 's_ H_-H_g' > ${SAMP}c.subsamp_2.fastq && \
 	seqtk mergepe ${SAMP}c.subsamp_1.fastq ${SAMP}c.subsamp_2.fastq > ${SAMP}c.interleave.fastq && \
 	normalize-by-median.py --max-memory-usage 4e9 -C 30 -o ${SAMP}c.norm.fastq ${SAMP}c.interleave.fastq && \
 	split-paired-reads.py ${SAMP}c.norm.fastq && \
