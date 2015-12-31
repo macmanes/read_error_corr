@@ -101,7 +101,7 @@ https://s3.amazonaws.com/feeding/60M.seecer.trinity.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/80M.trinity_bless31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/trinity_2M.P2.raw.Trinity.fasta.gz
 
-####Filtering Raw
+#### For Filtering Raw Assemblies
 https://s3.amazonaws.com/feeding/1M.trinity_bfc31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/2M.trinity_bfc31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/5M.trinity_bfc31.Trinity.fasta.gz
@@ -111,3 +111,24 @@ https://s3.amazonaws.com/feeding/40M.trinity_rcorr31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/60M.trinity_rcorr31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/80M.trinity_rcorr31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/100M.trinity_rcorr31.Trinity.fasta.gz
+
+#### Transrate Filtered
+https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/good.40M.trinity_rcorr31.Trinity.fasta
+https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/good.100M.trinity_rcorr31.Trinity.fasta
+
+
+#### Transrate + TPM Filtered
+https://s3.amazonaws.com/feeding/1bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/5bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/10bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/20bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/40rcorr.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/60rcorr.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/80rcorr.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/100rcorr.Trinity.fasta.gz
