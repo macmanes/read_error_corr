@@ -113,13 +113,13 @@ https://s3.amazonaws.com/feeding/80M.trinity_rcorr31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/100M.trinity_rcorr31.Trinity.fasta.gz
 
 #### Transrate Filtered
-https://s3.amazonaws.com/feeding/
-https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/good.1M.trinity_bfc31.Trinity.fasta
+https://s3.amazonaws.com/feeding/good.5M.trinity_bfc31.Trinity.fasta
 https://s3.amazonaws.com/feeding/good.10M.trinity_bfc31.Trinity.fasta
-https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/good.20M.trinity_bfc31.Trinity.fasta
 https://s3.amazonaws.com/feeding/good.40M.trinity_rcorr31.Trinity.fasta
-https://s3.amazonaws.com/feeding/
-https://s3.amazonaws.com/feeding/
+https://s3.amazonaws.com/feeding/good.60M.trinity_rcorr31.Trinity.fasta
+https://s3.amazonaws.com/feeding/good.80M.trinity_rcorr31.Trinity.fasta
 https://s3.amazonaws.com/feeding/good.100M.trinity_rcorr31.Trinity.fasta
 
 
