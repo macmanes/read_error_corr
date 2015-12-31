@@ -100,3 +100,14 @@ https://s3.amazonaws.com/feeding/trinity_20M.P2.raw.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/60M.seecer.trinity.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/80M.trinity_bless31.Trinity.fasta.gz
 https://s3.amazonaws.com/feeding/trinity_2M.P2.raw.Trinity.fasta.gz
+
+####Filtering Raw
+https://s3.amazonaws.com/feeding/1M.trinity_bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/2M.trinity_bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/5M.trinity_bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/10M.trinity_rcorr31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/20M.trinity_bfc31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/40M.trinity_rcorr31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/60M.trinity_rcorr31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/80M.trinity_rcorr31.Trinity.fasta.gz
+https://s3.amazonaws.com/feeding/100M.trinity_rcorr31.Trinity.fasta.gz
