@@ -144,7 +144,7 @@ bfc_trinity:
 	cd ${DIR}/bfc${SAMP}M && \
 	split-paired-reads.py bfc55.corr.fq && \
 	Trinity --seqType fq --max_memory 20G --trimmomatic --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 --CPU $(CPU) --output ${SAMP}M.trinity_bfc55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 /home/ubuntu/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g ${SAMP}M.trinity_bfc55.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 /home/ubuntu/BUSCO_v1.1b1/BUSCO_v1.1b1.py -in ${SAMP}M.trinity_bfc55.Trinity.fasta -m trans --cpu $(CPU) -l vertebrata && \
 	transrate -o ${SAMP}M.bfc55 -a ${SAMP}M.trinity_bfc55.Trinity.fasta --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
 
@@ -193,6 +193,6 @@ trinity_raw:${DIR}/reads/${SAMP}.subsamp_1.fastq ${DIR}/reads/${SAMP}.subsamp_2.
 	mkdir -p ${DIR}/trinity_${SAMP}M
 	cd ${DIR}/trinity_${SAMP}M && \
 	Trinity --seqType fq --max_memory 20G --trimmomatic --left $< --right $(word 2,$^) --CPU $(CPU) --output trinity_${SAMP}M.P2.raw --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
-	python3 /home/ubuntu/BUSCO_v1.1b1/BUSCO_v1.1b1.py -g trinity_${SAMP}M.P2.raw.Trinity.fasta -m Trans --cpu $(CPU) -l vertebrata && \
+	python3 /home/ubuntu/BUSCO_v1.1b1/BUSCO_v1.1b1.py -in trinity_${SAMP}M.P2.raw.Trinity.fasta -m trans --cpu $(CPU) -l vertebrata && \
 	transrate -o ${SAMP}M.raw -a trinity_${SAMP}M.P2.raw.Trinity.fasta --left $< --right $(word 2,$^) -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
