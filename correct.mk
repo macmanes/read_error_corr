@@ -145,8 +145,8 @@ bfc_trinity:
 	split-paired-reads.py bfc55.corr.fq && \
 	Trinity --seqType fq --max_memory 20G --trimmomatic --left bfc55.corr.fq.1 --right bfc55.corr.fq.2 --CPU $(CPU) --output ${SAMP}M.trinity_bfc55 --inchworm_cpu 10 --full_cleanup --quality_trimming_params "ILLUMINACLIP:${DIR}/scripts/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25" && \
 	python3 /home/ubuntu/BUSCO_v1.1b1/BUSCO_v1.1b1.py -o ${SAMP}M.bfc55 -in ${SAMP}M.trinity_bfc55.Trinity.fasta -m trans --cpu $(CPU) -l /home/ubuntu/BUSCO_v1.1b1/vertebrata && \
-	awk '{print $1}' bfc55.corr.fq.1 > bfc55.corr.1.fq
-	awk '{print $1}' bfc55.corr.fq.2 > bfc55.corr.2.fq
+	awk '{print $1}' bfc55.corr.fq.1 > bfc55.corr.1.fq && \
+	awk '{print $1}' bfc55.corr.fq.2 > bfc55.corr.2.fq && \
 	transrate -o ${SAMP}M.bfc55 -a ${SAMP}M.trinity_bfc55.Trinity.fasta --left bfc55.corr.1.fq --right bfc55.corr.2.fq -t $(CPU) && \
 	mv *fasta ${DIR}/assemblies/
 
